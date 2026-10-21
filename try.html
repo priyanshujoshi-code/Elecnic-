@@ -115,7 +115,7 @@ const elecnicServiceDetails=[{"name":"Electrical Services","description":"End-to
   modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
  }
  function closeDetail(){if(modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}}
- document.querySelectorAll('#projects .project').forEach((card,index)=>{card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',()=>openDetail('project',index));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail('project',index);}});
+ document.querySelectorAll('#projects .project').forEach((card,index)=>{card.addEventListener('click',()=>openDetail('project',index));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail('project',index);}});
   const p=elecnicProjectDetails[index],img=card.querySelector('.project-img');if(img&&p)img.style.backgroundImage='linear-gradient(135deg,rgba(228,0,0,.12),rgba(0,59,113,.15)),url('+JSON.stringify(p.src)+')';
  });
  document.querySelectorAll('#services .service-card').forEach((card,index)=>{card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',()=>openDetail('service',index));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail('service',index);}});});
@@ -132,8 +132,8 @@ const elecnicServiceDetails=[{"name":"Electrical Services","description":"End-to
  const header=document.getElementById('header');window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>30));
  const menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');if(menuBtn&&nav)menuBtn.addEventListener('click',()=>nav.classList.toggle('open'));
  document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>nav?.classList.remove('open')));
- const io=typeof IntersectionObserver==='function'?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}}),{threshold:.12}):null;
- document.querySelectorAll('.service-card,.project,.section-head').forEach(x=>{x.style.opacity='0';x.style.transform='translateY(20px)';x.style.transition='opacity .7s ease,transform .7s ease';if(io)io.observe(x);else{x.style.opacity='1';x.style.transform='none'}});
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}}),{threshold:.12});
+ document.querySelectorAll('.service-card,.project,.section-head').forEach(x=>{x.style.opacity='0';x.style.transform='translateY(20px)';x.style.transition='opacity .7s ease,transform .7s ease';if('IntersectionObserver' in window)io.observe(x);else{x.style.opacity='1';x.style.transform='none'}});
  document.querySelectorAll('.client').forEach(x=>{x.style.opacity='1';x.style.transform='none'});
  const form=document.getElementById('contactForm');if(form)form.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);const subject=encodeURIComponent('Website Enquiry - Elecnic Projects Pvt. Ltd.');const body=encodeURIComponent('Name: '+(d.get('name')||'')+'\nCompany: '+(d.get('company')||'')+'\nEmail: '+(d.get('email')||'')+'\nPhone: '+(d.get('phone')||'')+'\nProject Type: '+(d.get('project')||'')+'\nLocation: '+(d.get('location')||'')+'\n\nMessage:\n'+(d.get('message')||''));location.href='mailto:info@elecnic.com?subject='+subject+'&body='+body});
 })();
